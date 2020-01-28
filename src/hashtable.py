@@ -79,14 +79,21 @@ class HashTable:
 
 
     def retrieve(self, key):
-        '''
-        Retrieve the value stored with the given key.
-
-        Returns None if the key is not found.
-
-        Fill this in.
-        '''
-        pass
+        if not self.storage[self._hash_mod(key)]:
+            return None
+        else:
+            head = self.storage[self._hash_mod(key)]
+            #1 item
+            if not head.next:
+                return self.storage[self._hash_mod(key)]
+            #more than 1, so Linked List, head value has key
+            else:
+                #TRAVERSE LINKED LIST TIL WE FIND VALUE
+                current = head
+                while current:
+                    if current.key == key:
+                        return current
+                    current = current.next
 
 
     def resize(self):
