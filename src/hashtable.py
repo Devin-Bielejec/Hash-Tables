@@ -89,13 +89,17 @@ class HashTable:
                 current = current.next
 
     def resize(self):
-        '''
-        Doubles the capacity of the hash table and
-        rehash all key/value pairs.
-
-        Fill this in.
-        '''
-        pass
+        #Create new sized storage
+        new_hash = HashTable(self.capacity*2)
+        for node in self.storage:
+            if node:
+                current = node
+                while current:
+                    new_hash.insert(current.key, current.value)
+                    current = current.next
+        
+        self.storage = new_hash.storage
+        self.capacity = new_hash.capacity
 
 
 
