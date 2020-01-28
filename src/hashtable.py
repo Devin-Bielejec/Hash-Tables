@@ -44,6 +44,18 @@ class HashTable:
 
 
     def insert(self, key, value):
+        #put value in at random index
+        if not self.storage[self._hash_mod(key)]:
+            self.storage[self._hash_mod(key)] = value
+        #add to head of linked list
+        else:
+            #make new linked Pair - adding (key, value) to head
+            new_pair = LinkedPair(key, value)
+            #new_pair's next points to old value
+            new_pair.next = self.storage[self._hash_mod(key)]
+            #rewriting storage to be new_pair
+            self.storage[self._hash_mod(key)] = new_pair
+        
         '''
         Store the value with the given key.
 
