@@ -55,27 +55,27 @@ class HashTable:
             new_pair.next = self.storage[self._hash_mod(key)]
             #rewriting storage to be new_pair
             self.storage[self._hash_mod(key)] = new_pair
-        
-        '''
-        Store the value with the given key.
-
-        Hash collisions should be handled with Linked List Chaining.
-
-        Fill this in.
-        '''
-        pass
-
-
 
     def remove(self, key):
-        '''
-        Remove the value stored with the given key.
-
-        Print a warning if the key is not found.
-
-        Fill this in.
-        '''
-        pass
+        if not self.storage[self._hash_mod(key)]:
+            print("There is no value here!")
+        else:
+            head = self.storage[self._hash_mod(key)]
+            #1 item
+            if not head.next:
+                self.storage[self._hash_mod(key)] = None
+            #more than 1, so Linked List, head value has key
+            else:
+                #REMOVE METHOD ON LINKED LIST
+                if head.key == key:
+                    self.storage[self._hash_mod(key)] = head.next
+                else:
+                    prev = head
+                    current = prev.next
+                    while current:
+                        if current.key == key:
+                            prev.next = current.next
+                        current = current.next
 
 
     def retrieve(self, key):
