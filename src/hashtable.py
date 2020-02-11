@@ -44,47 +44,62 @@ class HashTable:
 
 
     def insert(self, key, value):
-        '''
-        Store the value with the given key.
-
-        Hash collisions should be handled with Linked List Chaining.
-
-        Fill this in.
-        '''
-        pass
-
-
+        #put value in at random index
+        if not self.storage[self._hash_mod(key)]:
+            self.storage[self._hash_mod(key)] = LinkedPair(key, value)
+        #add to head of linked list
+        else:
+            #make new linked Pair - adding (key, value) to head
+            new_pair = LinkedPair(key, value)
+            #new_pair's next points to old value
+            new_pair.next = self.storage[self._hash_mod(key)]
+            #rewriting storage to be new_pair
+            self.storage[self._hash_mod(key)] = new_pair
 
     def remove(self, key):
-        '''
-        Remove the value stored with the given key.
-
-        Print a warning if the key is not found.
-
-        Fill this in.
-        '''
-        pass
-
+        if not self.storage[self._hash_mod(key)]:
+            print("There is no value here!")
+        else:
+            head = self.storage[self._hash_mod(key)]
+            #1 item
+            if not head.next:
+                self.storage[self._hash_mod(key)] = None
+            #more than 1, so Linked List, head value has key
+            else:
+                #REMOVE METHOD ON LINKED LIST
+                if head.key == key:
+                    self.storage[self._hash_mod(key)] = head.next
+                else:
+                    prev = head
+                    current = prev.next
+                    while current:
+                        if current.key == key:
+                            prev.next = current.next
+                        current = current.next
 
     def retrieve(self, key):
-        '''
-        Retrieve the value stored with the given key.
-
-        Returns None if the key is not found.
-
-        Fill this in.
-        '''
-        pass
-
+        if not self.storage[self._hash_mod(key)]:
+            return None
+        else:
+            current = self.storage[self._hash_mod(key)]
+            #TRAVERSE LINKED LIST TIL WE FIND VALUE
+            while current:
+                if current.key == key:
+                    return current.value
+                current = current.next
 
     def resize(self):
-        '''
-        Doubles the capacity of the hash table and
-        rehash all key/value pairs.
-
-        Fill this in.
-        '''
-        pass
+        #Create new sized storage
+        new_hash = HashTable(self.capacity*2)
+        for node in self.storage:
+            if node:
+                current = node
+                while current:
+                    new_hash.insert(current.key, current.value)
+                    current = current.next
+        
+        self.storage = new_hash.storage
+        self.capacity = new_hash.capacity
 
 
 
